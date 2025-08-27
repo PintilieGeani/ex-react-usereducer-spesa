@@ -15,11 +15,10 @@ function App() {
       {products.map((p) => (
         <div className="card">
           <h4>Nome: {p.name}</h4>
-          <p><strong>Prezzo:</strong> {p.price} </p>
+          <p><strong>Prezzo:</strong>{p.price} €</p>
         </div>
       ))}
     </div>
-
     </>
   )
 }
