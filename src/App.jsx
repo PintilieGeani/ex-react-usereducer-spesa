@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 function App() {
   const products = [
@@ -9,13 +9,38 @@ function App() {
   ];
 
   const [addedProducts, setAddedProducts] = useState([])
+  const [totale, setTotale] = useState(0)
+
+  useEffect(() => {
+  const total = addedProducts.reduce((acc, e) => acc + e.Prezzo * e.Quantity, 0);
+  setTotale(total);
+}, [addedProducts]);
+
+ 
 
   const handleAdd = (p) => {
       const presente = addedProducts.some((e) =>e.Product === p.name )
       if(!presente){
         setAddedProducts([...addedProducts, {Product: p.name, Quantity: 1, Prezzo: p.price}])
-      }else{console.log("Prodotto già nel carrello")}
+        console.log(addedProducts)
+      }else{
+        const updateProductQuantity = addedProducts.map((e) => e.Product === p.name 
+          ? {...e, Quantity : e.Quantity + 1}
+          : e 
+        )
+        setAddedProducts(updateProductQuantity)  
+      }
   }
+
+  const handleRemove = (p) => {
+    const toRemove = addedProducts.filter((e) => e.Product !== p.Product
+    )
+    setAddedProducts(toRemove)
+  }
+
+
+
+
 
 
   return (
@@ -42,9 +67,11 @@ function App() {
             <p>Prodotto: {p.Product}</p>
             <p>Quantità: {p.Quantity}</p>
             <p>Prezzo: {p.Prezzo}</p>
+            <button onClick={() => handleRemove(p)}>Rimuovi</button>
           </li>
         ))}
         </ul>
+        <p>Totale:{totale.toFixed(2)}€</p>
       </div>
     </div>
     </>
