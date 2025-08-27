@@ -54,6 +54,7 @@ function App() {
     <>
       <div className="inpaginazione">
         <div className="prodotti">
+          <h3 className="titolo gradient-text">Prodotti</h3>
           {products.map((p, i) => (
             <div key={i} className="card">
               <div className="card-text">
@@ -61,54 +62,57 @@ function App() {
                 <p><strong>Prezzo:</strong>{p.price} €</p>
               </div>
               <div className="card-buttons">
-                <button onClick={() => handleAdd(p)} className="btn bg-green">Aggiungi al carrello</button>
+                <button onClick={() => handleAdd(p)} className="btn bg">Aggiungi al carrello</button>
               </div>
             </div>
           ))}
         </div>
         <div className="carrello">
-          <p>Carrello</p>
-          <ul>
-            {addedProducts.map((p, i) => (
-              <li key={i}>
-                <p>Prodotto: {p.Product}</p>
-                <p>Quantità: <input
-                  type="number"
-                  min={1}
-                  step={1}
-                  value={p.Quantity}
-                  onChange={(e) => {
-                    const rawValue = e.target.value;
-                    if (rawValue === '') {
-                      handleQuantity(p, '');
-                      return;
-                    }
-                    const value = parseInt(rawValue, 10);
-                    if (isNaN(value) || value < 1) return;
-                    handleQuantity(p, value);
-                  }}
-                  onBlur={() => {
-                    if (p.Quantity === '' || p.Quantity < 1) {
-                      handleQuantity(p, 1);
-                    }
-                  }}
-                  onKeyDown={(e) => {
-                    if (['.', ',', '-', 'e'].includes(e.key)) {
-                      e.preventDefault();
-                    }
-                    // Non permettere lo 0 come primo carattere
-                    if (e.key === '0' && e.target.value === '') {
-                      e.preventDefault();
-                    }
-                  }}
-                />
-                </p>
-                <p>Prezzo: {p.Prezzo}</p>
-                <button onClick={() => handleRemove(p)}>Rimuovi</button>
-              </li>
-            ))}
-          </ul>
-          <p>Totale:{totale.toFixed(2)}€</p>
+          <h3 className="titolo gradient-text">Carrello</h3>
+          {addedProducts.map((p, i) => (
+            <div className="card" key={i}>
+              <div className="card-text">
+              <p>Prodotto: {p.Product}</p>
+              <p>Quantità: <input className="input"
+                type="number"
+                min={1}
+                step={1}
+                value={p.Quantity}
+                onChange={(e) => {
+                  const rawValue = e.target.value;
+                  if (rawValue === '') {
+                    handleQuantity(p, '');
+                    return;
+                  }
+                  const value = parseInt(rawValue, 10);
+                  if (isNaN(value) || value < 1) return;
+                  handleQuantity(p, value);
+                }}
+                onBlur={() => {
+                  if (p.Quantity === '' || p.Quantity < 1) {
+                    handleQuantity(p, 1);
+                  }
+                }}
+                onKeyDown={(e) => {
+                  if (['.', ',', '-', 'e'].includes(e.key)) {
+                    e.preventDefault();
+                  }
+                  // Non permettere lo 0 come primo carattere
+                  if (e.key === '0' && e.target.value === '') {
+                    e.preventDefault();
+                  }
+                }}
+              />
+              </p>
+              <p>Prezzo: {p.Prezzo}€</p>
+              </div>
+              <div className="card-buttons">
+              <button className="btn bg" onClick={() => handleRemove(p)}>Rimuovi</button>
+              </div>
+            </div>
+          ))}
+
+          <p className="totale gradient-text">Totale:{totale.toFixed(2)}€</p>
         </div>
       </div>
     </>
